@@ -1,0 +1,15 @@
+[submodule "client/libraries/cocos-headers"]
+	path = client/libraries/cocos-headers
+	url = https://github.com/HJfod/cocos-headers
+[submodule "client/libraries/curl"]
+	path = client/libraries/curl
+	url = https://github.com/curl/curl
+[submodule "client/libraries/json"]
+	path = client/libraries/json
+	url = https://github.com/nlohmann/json
+[submodule "client/libraries/Mega-Hack-Extensions"]
+	path = client/libraries/Mega-Hack-Extensions
+	url = https://github.com/absoIute/Mega-Hack-Extensions
+[submodule "client/libraries/minhook"]
+	path = client/libraries/minhook
+	url = https://github.com/TsudaKageyu/minhook

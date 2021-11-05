@@ -1,0 +1,16 @@
+[package]
+name = "NONGserv"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rocket = "0.4.4"
+rocket_codegen = "0.4.4"
+reqwest = { version = "0.11.6", features = ["blocking"] }
+bytes = "1.1.0"
+mysql = "20.1.0"
+dotenv = "0.15"
+lazy_static = "1.4.0"
+rocket_contrib = "0.4.4"

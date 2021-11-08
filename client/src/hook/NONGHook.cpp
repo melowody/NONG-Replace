@@ -24,7 +24,7 @@ std::string* __fastcall NongHook::GJGameLevel__getAudioFileNameHook(gd::GJGameLe
 				*refString = fileStr;
 			}
 		}
-	} else if (self->m_nAudioTrack == 0) {
+	} else if (self->m_nSongID != 0) {
 		auto pMDM = gd::MusicDownloadManager::sharedState();
 		pMDM->pathForSong(refString, self->m_nSongID);
 	} else {

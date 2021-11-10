@@ -23,8 +23,6 @@ class NongHackProButton : public Hackpro::Extension {
 
 protected:
 
-	DWORD pId;
-
 	void __stdcall enableHook() {
 		NongHook::getLevels();
 		MH_EnableHook((LPVOID)(gd::base + 0xBDC70));

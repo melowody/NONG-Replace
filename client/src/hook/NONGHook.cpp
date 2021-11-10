@@ -2,6 +2,27 @@
 #include <filesystem>
 #include <nlohmann/json.hpp>
 
+void runCouldntConnectPopup() {
+	float x = 1.0f;
+	float y = .6f;
+	std::string copyText = "Couldn't connect to server!";
+
+	auto textBoxAddr = reinterpret_cast<void* (__stdcall*)(std::string)>(gd::base + 0x1450B0);
+	__asm {
+		movss xmm0, x
+		movss xmm1, y
+	}
+	CCLayer* ret = (CCLayer*)textBoxAddr(copyText);
+	__asm add esp, 0x18
+
+	CCDirector * director = CCDirector::sharedDirector();
+	CCScene* scene = director->getRunningScene();
+	ret->setZOrder(510);
+	scene->addChild(ret);
+	auto fadeto = CCFadeTo::create(0.14, 100);
+	ret->runAction(fadeto);
+}
+
 std::string* __fastcall NongHook::GJGameLevel__getAudioFileNameHook(gd::GJGameLevel* self, void* edx, std::string* refString) {
 
 	new(refString) std::string("");
@@ -45,6 +66,7 @@ std::string NongHook::getFile(int id) {
 }
 
 void NongHook::getLevels() {
+	CURLcode res;
 	NongHook::levels.clear();
 	std::string d;
 
@@ -52,14 +74,19 @@ void NongHook::getLevels() {
 	curl_easy_setopt(curl, CURLOPT_URL, "http://play.gear.is:3000/levels");
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeFunctionString);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &d);
-	curl_easy_perform(curl);
+	res = curl_easy_perform(curl);
+
+	if (res == CURLE_OK) {
+		auto j = nlohmann::json::parse(d);
+		for (int i : j) {
+			levels.push_back(i);
+		}
+	} else {
+		runCouldntConnectPopup();
+	}
+
 	curl_easy_cleanup(curl);
 	curl = NULL;
-
-	auto j = nlohmann::json::parse(d);
-	for (int i : j) {
-		levels.push_back(i);
-	}
 }
 
 void NongHook::getData(int id, std::string fileStr) {
